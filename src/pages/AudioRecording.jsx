@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Container, Text, VStack, IconButton, Box, Button, useToast, HStack } from "@chakra-ui/react";
 import { FaMicrophone, FaStop } from "react-icons/fa";
+import { handleFileUpload } from "../utils/genai.js";
 
 const AudioRecording = () => {
   const [isRecording, setIsRecording] = useState(false);

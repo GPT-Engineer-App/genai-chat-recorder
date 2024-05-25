@@ -4,6 +4,17 @@ import { FaMicrophone, FaVideo, FaTerminal, FaTimes, FaVolumeUp } from "react-ic
 import { Link } from "react-router-dom";
 import { uploadToGemini, startChatSession, sendMessageToChatSession } from "../utils/genai.js";
 
+const handleFileUpload = async (file, type) => {
+  const response = await uploadToGemini(file);
+  if (response.success) {
+    const sessionId = await startChatSession();
+    const prompt = type === "video" ? "This is a video." : "This is an audio.";
+    const messageResponse = await sendMessageToChatSession(sessionId, prompt);
+    return messageResponse.response;
+  }
+  return "Upload failed.";
+};
+
 const Index = () => {
   const [isRecordingVideo, setIsRecordingVideo] = useState(false);
   const [isRecordingAudio, setIsRecordingAudio] = useState(false);
