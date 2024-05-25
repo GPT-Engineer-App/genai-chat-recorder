@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Text, VStack, IconButton, Box, HStack, useToast, Button } from "@chakra-ui/react";
+import { Container, Text, VStack, IconButton, Box, HStack, useToast, Button, useColorMode } from "@chakra-ui/react";
 import { FaMicrophone, FaVideo, FaTerminal, FaTimes, FaVolumeUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { uploadToGemini, startChatSession, sendMessageToChatSession } from "../utils/genai.js";
+import { useNavigate } from "react-router-dom";
 
 const handleFileUpload = async (file, type) => {
   const response = await uploadToGemini(file);
@@ -21,6 +22,7 @@ const Index = () => {
   const [consoleVisible, setConsoleVisible] = useState(true);
   const [consoleOutput, setConsoleOutput] = useState([]);
   const videoRef = useRef(null);
+  const navigate = useNavigate();
   const audioRef = useRef(null);
   const chatSessionRef = useRef(null);
   const toast = useToast();
@@ -66,6 +68,8 @@ const Index = () => {
 
   const startVideoRecording = async () => {
     try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      videoRef.current.srcObject = stream;
       setIsRecordingVideo(true);
       setConsoleOutput((prev) => [...prev, "Started video recording..."]);
     } catch (error) {
@@ -75,8 +79,12 @@ const Index = () => {
 
   const stopVideoRecording = async () => {
     try {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
       setIsRecordingVideo(false);
       setConsoleOutput((prev) => [...prev, "Stopped video recording. Uploading..."]);
+      const response = await handleFileUpload(videoRef.current.srcObject, "video");
+      setConsoleOutput((prev) => [...prev, `Upload response: ${response}`]);
     } catch (error) {
       setConsoleOutput((prev) => [...prev, `Error stopping video recording: ${error.message}`]);
     }
@@ -109,6 +117,7 @@ const Index = () => {
       <VStack spacing={4}>
         <Text fontSize="2xl">Chat Application with Google GenAI</Text>
         <HStack spacing={4}>
+          <Button onClick={() => navigate("/video")}>Go to Video Recording</Button>
           <IconButton aria-label="Record Video" icon={<FaVideo />} size="lg" onClick={startVideoRecording} isDisabled={isRecordingVideo} />
           <IconButton aria-label="Record Audio" icon={<FaMicrophone />} size="lg" onClick={startAudioRecording} isDisabled={isRecordingAudio} />
           <IconButton aria-label="Toggle Console" icon={consoleVisible ? <FaTimes /> : <FaTerminal />} size="lg" onClick={toggleConsoleVisibility} />

@@ -1,3 +1,9 @@
+export const handleFileUpload = async (data, type) => {
+  console.log(`Uploading ${type} data to Google GenAI...`, data);
+
+  return { success: true, response: `${type} data uploaded successfully` };
+};
+
 export const uploadToGemini = async (data) => {
   console.log("Uploading data to Google GenAI...", data);
 

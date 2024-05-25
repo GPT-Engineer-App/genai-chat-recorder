@@ -3,6 +3,7 @@ import { Container, Text, VStack, IconButton, useToast, HStack } from "@chakra-u
 import VideoPreview from "../components/VideoPreview.jsx";
 import { FaVideo, FaStop } from "react-icons/fa";
 import { handleFileUpload } from "../utils/genai.js";
+import { useNavigate } from "react-router-dom";
 
 const VideoRecording = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -11,6 +12,8 @@ const VideoRecording = () => {
 
   const startVideoRecording = async () => {
     try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      videoRef.current.srcObject = stream;
       setIsRecording(true);
       toast({
         title: "Video recording started.",
@@ -31,10 +34,20 @@ const VideoRecording = () => {
 
   const stopVideoRecording = async () => {
     try {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
       setIsRecording(false);
       toast({
         title: "Video recording stopped and uploaded.",
         status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      const response = await handleFileUpload(videoRef.current.srcObject, "video");
+      toast({
+        title: "Upload response",
+        description: response,
+        status: "info",
         duration: 2000,
         isClosable: true,
       });
