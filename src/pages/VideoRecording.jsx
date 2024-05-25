@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Container, Text, VStack, IconButton, useToast, HStack, Box } from "@chakra-ui/react";
+import React, { useState, useRef } from "react";
+import { Container, Text, VStack, IconButton, useToast, HStack } from "@chakra-ui/react";
 import VideoPreview from "../components/VideoPreview.jsx";
 import { FaVideo, FaStop } from "react-icons/fa";
 import { handleFileUpload } from "../utils/genai.js";
