@@ -9,26 +9,44 @@ const VideoRecording = () => {
   const videoRef = useRef(null);
   const toast = useToast();
 
-  const startVideoRecording = () => {
-    setIsRecording(true);
-
-    toast({
-      title: "Video recording started.",
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-    });
+  const startVideoRecording = async () => {
+    try {
+      setIsRecording(true);
+      toast({
+        title: "Video recording started.",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error starting video recording.",
+        description: error.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
-  const stopVideoRecording = () => {
-    setIsRecording(false);
-
-    toast({
-      title: "Video recording stopped and uploaded.",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
+  const stopVideoRecording = async () => {
+    try {
+      setIsRecording(false);
+      toast({
+        title: "Video recording stopped and uploaded.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error stopping video recording.",
+        description: error.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   return (

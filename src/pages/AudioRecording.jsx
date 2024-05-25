@@ -8,26 +8,44 @@ const AudioRecording = () => {
   const audioRef = useRef(null);
   const toast = useToast();
 
-  const startAudioRecording = () => {
-    setIsRecording(true);
-
-    toast({
-      title: "Audio recording started.",
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-    });
+  const startAudioRecording = async () => {
+    try {
+      setIsRecording(true);
+      toast({
+        title: "Audio recording started.",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error starting audio recording.",
+        description: error.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
-  const stopAudioRecording = () => {
-    setIsRecording(false);
-
-    toast({
-      title: "Audio recording stopped and uploaded.",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
+  const stopAudioRecording = async () => {
+    try {
+      setIsRecording(false);
+      toast({
+        title: "Audio recording stopped and uploaded.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error stopping audio recording.",
+        description: error.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   return (

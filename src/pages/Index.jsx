@@ -51,28 +51,53 @@ const Index = () => {
     };
   }, [isRecordingVideo, isRecordingAudio]);
 
+  useEffect(() => {
+    const requestMicrophonePermission = async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        setConsoleOutput((prev) => [...prev, "Microphone permission granted."]);
+      } catch (error) {
+        setConsoleOutput((prev) => [...prev, `Microphone permission denied: ${error.message}`]);
+      }
+    };
+
+    requestMicrophonePermission();
+  }, []);
+
   const startVideoRecording = async () => {
-    setIsRecordingVideo(true);
-    setConsoleOutput((prev) => [...prev, "Started video recording..."]);
-    // Add video recording logic here
+    try {
+      setIsRecordingVideo(true);
+      setConsoleOutput((prev) => [...prev, "Started video recording..."]);
+    } catch (error) {
+      setConsoleOutput((prev) => [...prev, `Error starting video recording: ${error.message}`]);
+    }
   };
 
   const stopVideoRecording = async () => {
-    setIsRecordingVideo(false);
-    setConsoleOutput((prev) => [...prev, "Stopped video recording. Uploading..."]);
-    // Add video upload logic here
+    try {
+      setIsRecordingVideo(false);
+      setConsoleOutput((prev) => [...prev, "Stopped video recording. Uploading..."]);
+    } catch (error) {
+      setConsoleOutput((prev) => [...prev, `Error stopping video recording: ${error.message}`]);
+    }
   };
 
   const startAudioRecording = async () => {
-    setIsRecordingAudio(true);
-    setConsoleOutput((prev) => [...prev, "Started audio recording..."]);
-    // Add audio recording logic here
+    try {
+      setIsRecordingAudio(true);
+      setConsoleOutput((prev) => [...prev, "Started audio recording..."]);
+    } catch (error) {
+      setConsoleOutput((prev) => [...prev, `Error starting audio recording: ${error.message}`]);
+    }
   };
 
   const stopAudioRecording = async () => {
-    setIsRecordingAudio(false);
-    setConsoleOutput((prev) => [...prev, "Stopped audio recording. Uploading..."]);
-    // Add audio upload logic here
+    try {
+      setIsRecordingAudio(false);
+      setConsoleOutput((prev) => [...prev, "Stopped audio recording. Uploading..."]);
+    } catch (error) {
+      setConsoleOutput((prev) => [...prev, `Error stopping audio recording: ${error.message}`]);
+    }
   };
 
   const toggleConsoleVisibility = () => {
