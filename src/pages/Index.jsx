@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Text, VStack, IconButton, Box, HStack, useToast } from "@chakra-ui/react";
-import { FaMicrophone, FaVideo, FaTerminal, FaTimes } from "react-icons/fa";
+import { Container, Text, VStack, IconButton, Box, HStack, useToast, Button } from "@chakra-ui/react";
+import { FaMicrophone, FaVideo, FaTerminal, FaTimes, FaVolumeUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { uploadToGemini, startChatSession, sendMessageToChatSession } from "../utils/genai.js";
 
 const Index = () => {
   const [isRecordingVideo, setIsRecordingVideo] = useState(false);
@@ -10,6 +11,7 @@ const Index = () => {
   const [consoleOutput, setConsoleOutput] = useState([]);
   const videoRef = useRef(null);
   const audioRef = useRef(null);
+  const chatSessionRef = useRef(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -38,25 +40,25 @@ const Index = () => {
     };
   }, [isRecordingVideo, isRecordingAudio]);
 
-  const startVideoRecording = () => {
+  const startVideoRecording = async () => {
     setIsRecordingVideo(true);
     setConsoleOutput((prev) => [...prev, "Started video recording..."]);
     // Add video recording logic here
   };
 
-  const stopVideoRecording = () => {
+  const stopVideoRecording = async () => {
     setIsRecordingVideo(false);
     setConsoleOutput((prev) => [...prev, "Stopped video recording. Uploading..."]);
     // Add video upload logic here
   };
 
-  const startAudioRecording = () => {
+  const startAudioRecording = async () => {
     setIsRecordingAudio(true);
     setConsoleOutput((prev) => [...prev, "Started audio recording..."]);
     // Add audio recording logic here
   };
 
-  const stopAudioRecording = () => {
+  const stopAudioRecording = async () => {
     setIsRecordingAudio(false);
     setConsoleOutput((prev) => [...prev, "Stopped audio recording. Uploading..."]);
     // Add audio upload logic here

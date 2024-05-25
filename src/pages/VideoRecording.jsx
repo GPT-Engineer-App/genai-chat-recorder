@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { Container, Text, VStack, IconButton, Box, Button, useToast, HStack } from "@chakra-ui/react";
+import { Container, Text, VStack, IconButton, useToast, HStack } from "@chakra-ui/react";
+import VideoPreview from "../components/VideoPreview.jsx";
 import { FaVideo, FaStop } from "react-icons/fa";
 
 const VideoRecording = () => {
@@ -37,9 +38,7 @@ const VideoRecording = () => {
           <IconButton aria-label="Record Video" icon={<FaVideo />} size="lg" onClick={startVideoRecording} isDisabled={isRecording} />
           <IconButton aria-label="Stop Recording" icon={<FaStop />} size="lg" onClick={stopVideoRecording} isDisabled={!isRecording} />
         </HStack>
-        <Box ref={videoRef} width="100%" height="200px" border="1px solid" borderColor="gray.200" borderRadius="md" p={2}>
-          {}
-        </Box>
+        <VideoPreview videoRef={videoRef} />
       </VStack>
     </Container>
   );
