@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Text, VStack, IconButton, Box, Button, useToast, HStack, Textarea } from "@chakra-ui/react";
+import { Container, Text, VStack, IconButton, Box, HStack, useToast } from "@chakra-ui/react";
 import { FaMicrophone, FaVideo, FaTerminal, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [isRecordingVideo, setIsRecordingVideo] = useState(false);
